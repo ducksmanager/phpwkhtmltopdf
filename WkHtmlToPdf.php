@@ -89,6 +89,7 @@
  */
 class WkHtmlToPdf
 {
+    protected $binLocation = '';
     protected $bin = '/usr/bin/wkhtmltopdf';
 
     protected $enableEscaping = true;
@@ -234,6 +235,14 @@ class WkHtmlToPdf
     }
 
     /**
+     * @param mixed $binLocation where the bin is located (absolute path)
+     */
+    public function setBinLocation($binLocation)
+    {
+        $this->binLocation = $binLocation;
+    }
+
+    /**
      * @return mixed the detailled error message including the wkhtmltopdf command or null if none
      */
     public function getError()
@@ -258,7 +267,7 @@ class WkHtmlToPdf
      */
     public function getCommand($filename)
     {
-        $command = $this->enableEscaping ? escapeshellarg($this->bin) : $this->bin;
+        $command = $this->enableEscaping ? escapeshellarg($this->binLocation.$this->bin) : $this->binLocation.$this->bin;
 
         $command .= $this->renderOptions($this->options);
 
